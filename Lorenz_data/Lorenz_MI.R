@@ -1,6 +1,6 @@
 ################################
 #read lorenz data
-test<-read.table("LORENZ.DAT.txt")
+LORENZ<-read.table("LORENZ.DAT.txt")
 #normalize data to 0~1
 library("BBmisc")
 new<-normalize(x=test$V1,method ="range",range = c(0,1))
@@ -69,7 +69,9 @@ for(i in c(1:100)) {
 ###################################################################
 plot(Ans,type = "l")
 
-
+###################################################################
+#get d *16
+Ans 
 
 
 
