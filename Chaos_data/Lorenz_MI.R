@@ -1,9 +1,9 @@
 ################################
 #read lorenz data
-LORENZ<-read.table("LORENZ.DAT.txt")
+Dataset<-read.table("LORENZ.DAT.txt")
 #normalize data to 0~1
 library("BBmisc")
-new<-normalize(x=test$V1,method ="range",range = c(0,1))
+new<-normalize(x=Dataset$V1,method ="range",range = c(0,1))
 #create the "newB", which is "new" delay in one time step
 newB<-new[2:length(new)]
 #plot the hist of "new"
@@ -57,18 +57,22 @@ prob<-function(new,newB){
 # probability AB
 
 ##################################################################
+#read data
+Dataset<-read.table("HENON.DAT.txt")
 # for new and newB, calculate MI from 1~100
 Ans<-0
-for(i in c(1:100)) {
-        new<-normalize(x=test$V1,method ="range",range = c(0,1))
+for(i in c(1:50)) {
+        new<-normalize(x=Dataset$V1,method ="range",range = c(0,1))
         newB<-new[(i+1):length(new)]
         new<-new[1:(length(new)-i)]
         Ans[i]<-prob(new,newB)
         print(Ans[i])
 }
 ###################################################################
-plot(Ans,type = "l")
-
+png("MI for HENON.png", width=480, height=480)
+plot(Ans[1:50],type = "l",xlab = "T",ylab = "Av.MI",main = "Average MI")
+which.min(Ans[1:30])
+dev.off()
 ###################################################################
 #get d *16
 Ans 

@@ -1,10 +1,7 @@
 #Global Nearest Neighbor
 #first build a matrix
-LORENZ<-read.table("LORENZ.DAT.txt")
-GNN<-matrix(nrow = 16384,ncol = 2)
+Dataset<-read.table("HENON.DAT.txt")
 #function
-LORENZ<-read.table("LORENZ.DAT.txt")
-
 DimData<-function(data,n){
         GNN<-matrix(ncol = n,nrow = (nrow(data)))
         GNN[,1]<-data[,1]
@@ -15,9 +12,7 @@ DimData<-function(data,n){
             }
         return(GNN)
 }
-#check function 
-head(DimData(data = LORENZ,n = 4))
-tail(DimData(data = LORENZ,n = 4))
+
 ##second calculate dist
 Dist<-function(data,n){
         mind<-matrix(nrow = 1,ncol = 3,100)
@@ -45,25 +40,16 @@ Dist<-function(data,n){
         
         return(mind)
 }
-result<-Dist(data = LORENZ,n = 2)
-#solution 1 , reload data(put GNN in the first for loop)
-result
-#third calculate one more dimension
-#4080 10035 
-G4<-DimData(LORENZ,3)
-fd<-G3[4082,]-G3[5957,]
-tind<-sum(fd^2)
-sqrt((tind-result[,3])/result[,3])
-abs(LORENZ[4084,]-LORENZ[5959,])^2/result[,3]
-tind#
-#PLOT   from 2 to 10 
-
+result<-Dist(data = Dataset,n = 2)
+#look for GNN
 rs<-list()
 for (i in 1:9){
-        
-        d<-Dist(data = LORENZ,n=i+1)
-        rs[i]<-abs(LORENZ[d[1]+i+1,]-LORENZ[d[2]+i+1,])^2/d[,3]
+        d<-Dist(data = Dataset,n=i+1)
+        rs[i]<-abs(Dataset[d[1]+i+1,]-Dataset[d[2]+i+1,])^2/d[,3]
         print(rs[i])
         
 }
-plot(rs,type = "l")
+#PLOT   from 2 to 10
+png("GNN for HENON.png", width=480, height=480)
+plot(rs,x = 1:9,type = "l",main = "Embedded Dimension")
+dev.off()
