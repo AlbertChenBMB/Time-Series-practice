@@ -54,6 +54,8 @@ for(i in 1:4){
         Rdata[,i]<-newRdata[( i:(nrow(newRdata)-(5-i))),]
 }
 names(Rdata)<-c("v1","v2","v3","ans")
+
+
 #####
 Hdata<-matrix(nrow =( nrow(newHdata)-6),ncol = 6)
 for(i in 1:6){
@@ -86,7 +88,7 @@ for(i in 1:20){
         }
 }
 head(Error)
-
+#Error[1,20]
 which.min(Error)
 #############
 G_one<-Error[,10]
@@ -94,6 +96,16 @@ C_one<-Error[1,]
 plot(G_one,type = "l",xlab = "Cost/10",ylab = "Error",main = "Gamma = 1")
 plot(C_one,type = "l",xlab = "Gamma/10",ylab = "Error",main = "Cost = 0.1")
 #############
+H_s_regression <- svm(formula = V6 ~.,
+                      data = H_training_set,
+                      type = 'eps-regression',
+                      kernel = 'radial',
+                      cost=(0.1),
+                      gamma=(2))
+s_pred = predict(H_s_regression, newdata = H_testset[-6])
+#############
 ansplot<-H_testset[6]
 plot(Best)
 plot(x=c(463:579),y=ansplot$V6,type = "l")
+plot(x=c(463:579),y=s_pred,type = "l",col="red")
+abline(y=s_pred[])
