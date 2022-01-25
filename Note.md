@@ -1,4 +1,7 @@
 # python Time Series
+
+[![hackmd-github-sync-badge](https://hackmd.io/Cqw7NdqATImnU58TFimG9w/badge)](https://hackmd.io/Cqw7NdqATImnU58TFimG9w)
+
 ###### tags: `Python` `Time Series`
 
 
@@ -6,12 +9,11 @@
 ```
 from datetime import timedelta
 ```
-## time index
+### time index
 ```python=
 FT.index = pd.to_datetime(FT.index)
 ```
-
-
+### 計算時間差
 若要計算時間差須注意
 尤其是超過24小時的時間差
 舉例
@@ -34,8 +36,13 @@ d1-d3
 ```python=
 true_diff = (d1-d2).days*24*60*60 + (d1-d2).seconds
 ```
+### 取出小時做特徵
+```python=
+data['hour']=data['Date'].dt.hour
+```
 
-# 位移的時間資料
+
+## 位移的時間資料
 
 想要合併前30分種的資料
 暫時不用套件的做法為
@@ -66,7 +73,7 @@ newdata=pd.DataFrame({'All_max':All_max,'All_std':All_std,'All_mean':All_mean,'h
 
 
 
-# 時間轉換處理問題
+## 時間轉換處理問題
 ```python=
 from datetime import datetime
 import time
@@ -74,19 +81,19 @@ Need_PM_set["Date_one"]=Need_PM_set["Date_one"].map(lambda x: x.strftime('%Y%m%d
 ```
 上面這個程式是我原本DF中的Data_one標註為到分的單位, 為了要檢查以天為範圍的資料我將其轉換
 
-# 時間篩選
+## 時間篩選
 ```python=
 mask = (CH_data1['Date'] < '2020/12/15')
 
 New_data=CH_data1.copy().loc[mask]
 ```
-## 時間範圍
-# Select observations between two datetimes
+### 時間範圍
+* Select observations between two datetimes
+```python=
 df[(df['date'] > '2002-1-1 01:00:00') & (df['date'] <= '2002-1-1 04:00:00')]
+```
 
-
-
-# Moveing average
+### Moveing average
 ```python=
 def moving_average_forecast(series, window_size):
   """Forecasts the mean of the last few values.
@@ -133,6 +140,7 @@ fig.show()
 
 
 ```
+
 ## 判斷時間窗格確認是否有缺
 ```python=
 x = []
@@ -169,3 +177,35 @@ Output:
 **沒用set的結果**
 Output:
 DatetimeIndex(['2020-03-30 16:00:00', '2020-03-31 06:00:00'], dtype='datetime64[ns]', freq=None)
+
+## 時間做log
+```python=
+
+import time 
+struct_time = time.localtime()
+
+
+   
+model_change=ans
+file = out_path +'\\log\\'+str(struct_time.tm_mon)+str(struct_time.tm_mday)+str(struct_time.tm_hour)+'check.csv'
+model_change.to_csv(file,index = False)
+
+```
+## 中文轉日期(取年日月)
+```python=
+
+def Ch_date(x,y='m'):
+    if y == 'y':
+        x=x.split('年')[0]
+    elif y == 'm':
+        x=x.split('月')[0].split('年')[1]
+    elif y == 'd':
+        x=x.split('日')[0].split('月')[1]
+    
+    return int(x)
+
+```
+再用apply套入
+```python=
+Check["y"]=Check["日(Dtime)"].apply(Ch_date)
+```
