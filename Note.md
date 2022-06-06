@@ -9,9 +9,9 @@
 ```
 from datetime import timedelta
 ```
-### time index
+## 第一步驟: 時間格式轉換(index或column都可以)
 ```python=
-FT.index = pd.to_datetime(FT.index)
+FT.index = pd.to_datetime(FT.index,format='%Y/%m/%d %H:%M')
 ```
 ### 計算時間差
 若要計算時間差須注意
@@ -40,8 +40,10 @@ true_diff = (d1-d2).days*24*60*60 + (d1-d2).seconds
 ```python=
 data['hour']=data['Date'].dt.hour
 ```
-
-
+### 直接轉換只取年和月
+```python=
+data['Y_Mounth']=data.Date.map(lambda x: x.strftime('%Y-%m'))
+```
 ## 位移的時間資料
 
 想要合併前30分種的資料
