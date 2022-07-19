@@ -43,7 +43,62 @@ data['hour']=data['Date'].dt.hour
 ### 直接轉換只取年和月
 ```python=
 data['Y_Mounth']=data.Date.map(lambda x: x.strftime('%Y-%m'))
+
 ```
+### 從index取 (好像都沒辦法)
+```python=
+df['month'] = df.index.month
+```
+## 遺失補植
+時序資料常用往前（或是往後）遇到的第一個非 nan 值
+Original Dataframe
+
+
+example:
+
+```python=
+In [3]: df = pd.DataFrame({'ColA':[1, np.nan, np.nan, 4, 5, 6, 7], 'ColB':[1, 1, 1, 1, 2, 2, 2]})
+In [4]: df
+Out[4]:
+ColA  ColB
+0   1.0     1
+1   NaN     1
+2   NaN     1
+3   4.0     1
+4   5.0     2
+5   6.0     2
+6   7.0     2
+# 往前
+In [11]: df['ColA'].fillna(method='ffill', inplace=True)
+In [12]: df
+Out[12]:
+ColA  ColB
+0   1.0     1
+1   1.0     1
+2   1.0     1
+3   4.0     1
+4   5.0     2
+5   6.0     2
+6   7.0     2
+
+#往後
+
+In [14]: df['ColA'].fillna(method='bfill', inplace=True)
+In [15]: df
+Out[15]:
+ColA  ColB
+0   1.0     1
+1   4.0     1
+2   4.0     1
+3   4.0     1
+4   5.0     2
+5   6.0     2
+6   7.0     2
+
+```
+
+
+
 ## 位移的時間資料
 
 想要合併前30分種的資料
