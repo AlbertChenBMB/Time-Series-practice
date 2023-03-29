@@ -13,3 +13,4 @@ X1 <- ts(cumsum(c(x,rnorm(N,mean = 0)*sqrt(dt))),start=t0, deltat=dt)
 ts.plot(X1)
 mean(X1)
 sd(X1)
+### commit test
